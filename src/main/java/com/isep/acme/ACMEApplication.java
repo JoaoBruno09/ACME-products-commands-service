@@ -7,14 +7,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.http.converter.BufferedImageHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageConverter;
 
-import com.isep.acme.property.FileStorageProperties;
-
 import java.awt.image.BufferedImage;
 
 @SpringBootApplication
-@EnableConfigurationProperties({
-		FileStorageProperties.class
-})
 public class ACMEApplication {
 
 	public static void main(String[] args) {
