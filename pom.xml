@@ -153,6 +153,7 @@
 				</configuration>
 			</plugin>
 		</plugins>
+		<finalName>products-service-commands</finalName>
 	</build>
 
 </project>
