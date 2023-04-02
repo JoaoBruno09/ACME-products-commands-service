@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('Checkout'){
             steps{
-                checkout([$class: 'GitSCM', branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[credentialsId: 'git_access', url: 'https://Tiagorpl@bitbucket.org/joaobruno1220256/acme_products_queries.git']]])
+                checkout([$class: 'GitSCM', branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[credentialsId: 'git_access', url: 'https://Tiagorpl@bitbucket.org/joaobruno1220256/acme_products_commands.git']]])
             }
         }
         stage('Start Container') {
