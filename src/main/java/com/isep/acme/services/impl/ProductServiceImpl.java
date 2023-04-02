@@ -1,15 +1,13 @@
-package com.isep.acme.services;
+package com.isep.acme.services.impl;
 
 import com.isep.acme.model.Product;
-import com.isep.acme.model.ProductDTO;
-import com.isep.acme.model.ProductDetailDTO;
+import com.isep.acme.model.dtos.ProductDTO;
 import com.isep.acme.repositories.ProductRepository;
 
+import com.isep.acme.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @Service
