@@ -4,4 +4,4 @@ services:
   app:
     build: .
     ports:
-      - "8082:8080"
+      - "9002:8080"
