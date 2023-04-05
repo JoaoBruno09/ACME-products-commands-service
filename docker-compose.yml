@@ -5,6 +5,8 @@ services:
     build: .
     ports:
       - "9002:8080"
+    environment:
+      RABBIT_PORT: rabbitmq:5672
     networks:
     - acme
 networks:
