@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-            RABBIT_PORT = "${env.RABBIT_PORT.tokenize('/')[1]}"
+            RABBIT_PORT = "${env.RABBIT_PORT}"
         }
     stages {
         stage('Start Container') {
