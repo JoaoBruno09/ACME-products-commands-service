@@ -6,7 +6,7 @@ services:
     ports:
       - "9002:8080"
     environment:
-      RABBIT_PORT: rabbitmq:5672
+      RABBIT_PORT=${RABBIT_PORT}
     networks:
     - acme
 networks:
