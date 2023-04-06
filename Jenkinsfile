@@ -8,12 +8,12 @@ pipeline {
         }
     stages {
         stage('Start Container') {
-            echo "DB_URL is ${DB_URL}"
-            echo "DB_USER is ${DB_USER}"
-            echo "DB_PW is ${DB_PW}"
-            echo "RABBIT_PORT is ${RABBIT_PORT}"
-            sh 'printenv'
             steps {
+                echo "DB_URL is ${DB_URL}"
+                echo "DB_USER is ${DB_USER}"
+                echo "DB_PW is ${DB_PW}"
+                echo "RABBIT_PORT is ${RABBIT_PORT}"
+                sh 'printenv'
                 bat 'docker compose up -d'
             }
         }
