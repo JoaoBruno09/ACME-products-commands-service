@@ -6,6 +6,9 @@ services:
     ports:
       - "9002:8080"
     environment:
+      DB_URL: ${DB_URL}
+      DB_USER: ${DB_USER}
+      DB_PW: ${DB_PW}
       RABBIT_PORT: ${RABBIT_PORT}
     networks:
     - acme
