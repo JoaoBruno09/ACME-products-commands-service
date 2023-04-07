@@ -10,8 +10,7 @@ services:
       MESSAGE_QUEUE: ${MESSAGE_QUEUE}$${HOSTNAME##*-}
     build: .
     ports:
-      - "9003:8080"
-      - "9004:8080"
+      - "9003-9004:8080"
     networks:
     - acme
     deploy:
