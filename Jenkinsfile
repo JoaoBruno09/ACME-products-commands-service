@@ -13,7 +13,7 @@ pipeline {
                 echo "DB_USER is ${DB_USER}"
                 echo "DB_PW is ${DB_PW}"
                 echo "RABBIT_PORT is ${RABBIT_PORT}"
-                bat 'docker compose logs products_c'
+                bat 'docker compose up -d'
             }
         }
     }

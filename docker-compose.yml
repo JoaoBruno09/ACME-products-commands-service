@@ -2,15 +2,14 @@ version: '3'
 
 services:
   products_c:
-    build: .
-    ports:
-      - "9002:8080"
     environment:
       DB_URL: ${DB_URL}
       DB_USER: ${DB_USER}
       DB_PW: ${DB_PW}
       RABBIT_PORT: ${RABBIT_PORT}
-    command: bash -c 'echo "DB_URL=$DB_URL, DB_USER=$DB_USER, DB_PW=$DB_PW, RABBIT_PORT=$RABBIT_PORT"'
+    build: .
+    ports:
+      - "9002:8080"
     networks:
     - acme
 networks:
