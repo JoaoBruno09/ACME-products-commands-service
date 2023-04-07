@@ -7,11 +7,14 @@ services:
       DB_USER: ${DB_USER}
       DB_PW: ${DB_PW}
       RABBIT_PORT: ${RABBIT_PORT}
+      MESSAGE_QUEUE: ${MESSAGE_QUEUE}${HOSTNAME##*-}
     build: .
     ports:
       - "9002:8080"
     networks:
     - acme
+    deploy:
+      replicas: 2
 networks:
   acme:
     external: true

@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RMQConfig {
 
-	public static final String PCQUEUE = "products_commands_queue";
+	public static final String PCQUEUE = System.getenv("MESSAGE_QUEUE");
 	public static final String EXCHANGE = "fanout_exchange";
 
 	@Bean
