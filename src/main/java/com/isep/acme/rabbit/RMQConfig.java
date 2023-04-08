@@ -1,23 +1,21 @@
 package com.isep.acme.rabbit;
 
-import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.core.*;
+import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class RMQConfig {
 
-	@Value("${rabbit.queue.name}")
-	private String pcQueue;
+	public static final String PCQUEUE = "products_commands_queue_";
 	public static final String EXCHANGE = "fanout_exchange";
 
 	@Bean
 	public Queue queue() {
-		return new Queue(pcQueue);
+		return new Queue(PCQUEUE);
 	}
 
 	@Bean
