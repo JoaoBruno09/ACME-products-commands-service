@@ -9,7 +9,7 @@ pipeline {
     stages {
         stage('Start Container') {
             steps {
-                bat 'docker compose up -d'
+                bat 'docker compose up -d --scale products_c1=2'
             }
         }
     }

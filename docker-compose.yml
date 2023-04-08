@@ -9,20 +9,9 @@ services:
       RABBIT_PORT: ${RABBIT_PORT}
     build: .
     ports:
-      - "9003:8080"
+      - "9003-9004:8080"
     networks:
     - acme
-  products_c2:
-    environment:
-      DB_URL: ${DB_URL}
-      DB_USER: ${DB_USER}
-      DB_PW: ${DB_PW}
-      RABBIT_PORT: ${RABBIT_PORT}
-    build: .
-    ports:
-      - "9004:8080"
-    networks:
-      - acme
 networks:
   acme:
     external: true
