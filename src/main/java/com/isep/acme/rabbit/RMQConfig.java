@@ -8,17 +8,16 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-
 @Configuration
 public class RMQConfig {
 
-	@Value("${message-queue}")
-	public static final String PCQUEUE = "";
+	@Value("${env.message-queue}")
+	private String pcQueue;
 	public static final String EXCHANGE = "fanout_exchange";
 
 	@Bean
 	public Queue queue() {
-		return new Queue(PCQUEUE);
+		return new Queue(pcQueue);
 	}
 
 	@Bean
