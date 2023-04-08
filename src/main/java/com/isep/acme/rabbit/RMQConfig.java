@@ -11,8 +11,8 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RMQConfig {
 
-	@Value("${env.message-queue}")
-	private String pcQueue;
+	//@Value("${env.message-queue}")
+	private String pcQueue = "teste";
 	public static final String EXCHANGE = "fanout_exchange";
 
 	@Bean
