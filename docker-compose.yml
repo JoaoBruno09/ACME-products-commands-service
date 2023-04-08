@@ -1,20 +1,30 @@
 version: '3'
 
 services:
-  products_c:
+  products_c1:
     environment:
       DB_URL: ${DB_URL}
       DB_USER: ${DB_USER}
       DB_PW: ${DB_PW}
       RABBIT_PORT: ${RABBIT_PORT}
-      MESSAGE_QUEUE: ${MESSAGE_QUEUE}
+      MESSAGE_QUEUE: message_queue_products_c1
     build: .
     ports:
-      - "9003-9004:8080"
+      - "9003:8080"
     networks:
     - acme
-    deploy:
-      replicas: 2
+  products_c2:
+    environment:
+      DB_URL: ${DB_URL}
+      DB_USER: ${DB_USER}
+      DB_PW: ${DB_PW}
+      RABBIT_PORT: ${RABBIT_PORT}
+      MESSAGE_QUEUE: message_queue_products_c2
+    build: .
+    ports:
+      - "9004:8080"
+    networks:
+      - acme
 networks:
   acme:
     external: true
