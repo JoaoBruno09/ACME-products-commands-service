@@ -1,5 +1,6 @@
 package com.isep.acme.services.impl;
 
+import com.isep.acme.constants.Constants;
 import com.isep.acme.rabbit.RMQConfig;
 import com.isep.acme.model.Product;
 import com.isep.acme.model.dtos.ProductDTO;
@@ -15,20 +16,15 @@ import java.util.Optional;
 @Service
 public class ProductServiceImpl implements ProductService {
 
-    private static String createdProductHeader = "product-created";
-    private static String updatedProductHeader = "product-updated";
-    private static String deletedProductHeader = "product-deleted";
-
     @Autowired
     private ProductRepository repository;
-
     @Autowired
     private RabbitTemplate rabbitTemplate;
 
     @Override
     public ProductDTO create(final Product product) {
         final Product p = new Product(product.getSku(), product.getDesignation(), product.getDescription());
-        rabbitTemplate.convertAndSend(RMQConfig.EXCHANGE, "", p, createMessageProcessor(createdProductHeader));
+        rabbitTemplate.convertAndSend(RMQConfig.EXCHANGE, "", p, createMessageProcessor(Constants.CREATED_PRODUCT_HEADER));
         return repository.save(p).toDto();
     }
 
@@ -38,7 +34,7 @@ public class ProductServiceImpl implements ProductService {
         if(!productToUpdate.isEmpty()){
             productToUpdate.get().updateProduct(product);
             Product productUpdated = repository.save(productToUpdate.get());
-            rabbitTemplate.convertAndSend(RMQConfig.EXCHANGE, "", productUpdated, createMessageProcessor(updatedProductHeader));
+            rabbitTemplate.convertAndSend(RMQConfig.EXCHANGE, "", productUpdated, createMessageProcessor(Constants.UPDATED_PRODUCT_HEADER));
             return productUpdated.toDto();
         }
         return null;
@@ -48,7 +44,7 @@ public class ProductServiceImpl implements ProductService {
     public void deleteBySku(String sku) {
         final Optional<Product> productToDelete = repository.findBySku(sku);
         if(!productToDelete.isEmpty()){
-            rabbitTemplate.convertAndSend(RMQConfig.EXCHANGE, "", productToDelete.get(), createMessageProcessor(deletedProductHeader));
+            rabbitTemplate.convertAndSend(RMQConfig.EXCHANGE, "", productToDelete.get(), createMessageProcessor(Constants.DELETED_PRODUCT_HEADER));
             repository.deleteBySku(sku);
         }
     }
