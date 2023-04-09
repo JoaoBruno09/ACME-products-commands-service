@@ -22,26 +22,20 @@ public class RMQListener {
 
     @RabbitListener(queues = RMQConfig.PCQUEUE)
     public void listener(Message message){
-        String action= message.getMessageProperties().getHeader("action");
-        Product product = (Product) messageConverter.fromMessage(message);
-        final Optional<Product> productExists = repository.findBySku(product.getSku());
+        final String action= message.getMessageProperties().getHeader("action");
+        final Product product = (Product) messageConverter.fromMessage(message);
         if(product != null){
             switch(action) {
                 case Constants.CREATED_PRODUCT_HEADER:
-                    if(!productExists.isPresent()){
-                        repository.save(product);
-                    }
+                    repository.save(product);
                     break;
                 case Constants.UPDATED_PRODUCT_HEADER:
-                    if(!productExists.isEmpty()){
-                        productExists.get().updateProduct(product);
-                        repository.save(productExists.get());
-                    }
+                    final Optional<Product> productExists = repository.findBySku(product.getSku());
+                    productExists.get().updateProduct(product);
+                    repository.save(productExists.get());
                     break;
                 case Constants.DELETED_PRODUCT_HEADER:
-                    if(!productExists.isEmpty()){
-                        repository.deleteBySku(product.getSku());
-                    }
+                    repository.deleteBySku(product.getSku());
                     break;
                 default:
                     break;
