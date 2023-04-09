@@ -28,7 +28,7 @@ public class RMQListener {
         if(product != null){
             switch(action) {
                 case Constants.CREATED_PRODUCT_HEADER:
-                    if(productExists.isEmpty()){
+                    if(!productExists.isPresent()){
                         repository.save(product);
                     }
                     break;

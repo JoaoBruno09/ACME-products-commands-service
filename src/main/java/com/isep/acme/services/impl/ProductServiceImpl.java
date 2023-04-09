@@ -24,8 +24,12 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductDTO create(final Product product) {
         final Product p = new Product(product.getSku(), product.getDesignation(), product.getDescription());
-        rabbitTemplate.convertAndSend(RMQConfig.EXCHANGE, "", p, createMessageProcessor(Constants.CREATED_PRODUCT_HEADER));
-        return repository.save(p).toDto();
+        final Optional<Product> productToAdd = repository.findBySku(product.getSku());
+        if(!productToAdd.isPresent()){
+            rabbitTemplate.convertAndSend(RMQConfig.EXCHANGE, "", p, createMessageProcessor(Constants.CREATED_PRODUCT_HEADER));
+            return repository.save(p).toDto();
+        }
+        return null;
     }
 
     @Override
