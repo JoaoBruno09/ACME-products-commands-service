@@ -20,7 +20,7 @@ public class RMQListener {
     @Autowired
     private ProductRepository repository;
 
-    @RabbitListener(queues = RMQConfig.PCQUEUE)
+    @RabbitListener(queues = Constants.PCQUEUE)
     public void listener(Message message){
         final String action= message.getMessageProperties().getHeader("action");
         final Product product = (Product) messageConverter.fromMessage(message);
