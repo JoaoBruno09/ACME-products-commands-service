@@ -10,6 +10,8 @@ import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 @AllArgsConstructor
 @Component
 public class RMQListener {
@@ -22,16 +24,24 @@ public class RMQListener {
     public void listener(Message message){
         String action= message.getMessageProperties().getHeader("action");
         Product product = (Product) messageConverter.fromMessage(message);
-        if(product != null && repository.findBySku(product.getSku()).isEmpty()){
+        final Optional<Product> productExists = repository.findBySku(product.getSku());
+        if(product != null){
             switch(action) {
                 case Constants.CREATED_PRODUCT_HEADER:
-                   repository.save(product);
+                    if(productExists.isEmpty()){
+                        repository.save(product);
+                    }
                     break;
                 case Constants.UPDATED_PRODUCT_HEADER:
-                    repository.save(product);
+                    if(!productExists.isEmpty()){
+                        productExists.get().updateProduct(product);
+                        repository.save(productExists.get());
+                    }
                     break;
                 case Constants.DELETED_PRODUCT_HEADER:
-                    repository.deleteBySku(product.getSku());
+                    if(!productExists.isEmpty()){
+                        repository.deleteBySku(product.getSku());
+                    }
                     break;
                 default:
                     break;
