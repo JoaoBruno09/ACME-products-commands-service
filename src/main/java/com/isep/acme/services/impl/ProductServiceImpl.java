@@ -1,7 +1,6 @@
 package com.isep.acme.services.impl;
 
 import com.isep.acme.constants.Constants;
-import com.isep.acme.rabbit.RMQConfig;
 import com.isep.acme.model.Product;
 import com.isep.acme.model.dtos.ProductDTO;
 import com.isep.acme.repositories.ProductRepository;
