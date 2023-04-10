@@ -26,7 +26,7 @@ public class ProductServiceImpl implements ProductService {
         final Product p = new Product(product.getSku(), product.getDesignation(), product.getDescription());
         final Optional<Product> productToAdd = repository.findBySku(product.getSku());
         if(productToAdd.isEmpty()){
-            rabbitTemplate.convertAndSend(RMQConfig.EXCHANGE, "", p, createMessageProcessor(Constants.CREATED_PRODUCT_HEADER));
+            rabbitTemplate.convertAndSend(Constants.EXCHANGE, "", p, createMessageProcessor(Constants.CREATED_PRODUCT_HEADER));
             return repository.save(p).toDto();
         }
         return null;
@@ -38,7 +38,7 @@ public class ProductServiceImpl implements ProductService {
         if(!productToUpdate.isEmpty()){
             productToUpdate.get().updateProduct(product);
             Product productUpdated = repository.save(productToUpdate.get());
-            rabbitTemplate.convertAndSend(RMQConfig.EXCHANGE, "", productUpdated, createMessageProcessor(Constants.UPDATED_PRODUCT_HEADER));
+            rabbitTemplate.convertAndSend(Constants.EXCHANGE, "", productUpdated, createMessageProcessor(Constants.UPDATED_PRODUCT_HEADER));
             return productUpdated.toDto();
         }
         return null;
@@ -48,7 +48,7 @@ public class ProductServiceImpl implements ProductService {
     public void deleteBySku(String sku) {
         final Optional<Product> productToDelete = repository.findBySku(sku);
         if(!productToDelete.isEmpty()){
-            rabbitTemplate.convertAndSend(RMQConfig.EXCHANGE, "", productToDelete.get(), createMessageProcessor(Constants.DELETED_PRODUCT_HEADER));
+            rabbitTemplate.convertAndSend(Constants.EXCHANGE, "", productToDelete.get(), createMessageProcessor(Constants.DELETED_PRODUCT_HEADER));
             repository.deleteBySku(sku);
         }
     }

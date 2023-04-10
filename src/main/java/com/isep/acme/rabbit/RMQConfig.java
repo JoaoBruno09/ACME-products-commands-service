@@ -15,6 +15,10 @@ public class RMQConfig {
 	public Queue queue() {
 		return new Queue(Constants.PCQUEUE);
 	}
+	@Bean
+	public Queue queueRPC() {
+		return new Queue(Constants.RPCQUEUE);
+	}
 
 	@Bean
 	public FanoutExchange fanout() {
@@ -22,8 +26,20 @@ public class RMQConfig {
 	}
 
 	@Bean
+	public DirectExchange directExchange() {
+		return new DirectExchange(Constants.DIRECT_EXCHANGE);
+	}
+
+	@Bean
 	public Binding binding(FanoutExchange fanout, Queue queue) {
 		return BindingBuilder.bind(queue).to(fanout);
+	}
+	@Bean
+	public Binding bindingDirect(DirectExchange exchange,
+						   Queue queue) {
+		return BindingBuilder.bind(queue)
+				.to(exchange)
+				.with("rpc_products_queue");
 	}
 
 	@Bean
