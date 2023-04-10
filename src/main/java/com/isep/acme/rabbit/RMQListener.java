@@ -15,41 +15,44 @@ import java.util.Optional;
 @AllArgsConstructor
 @Component
 public class RMQListener {
-
     private final MessageConverter messageConverter;
     @Autowired
     private ProductRepository repository;
 
-    @RabbitListener(queues = Constants.PCQUEUE)
+    @RabbitListener(queues = "#{queue.name}")
     public void listener(Message message){
         final String action= message.getMessageProperties().getHeader("action");
-        final Product product = (Product) messageConverter.fromMessage(message);
-        System.out.println("Received Product Message " + product);
-        final Optional<Product> productToAction = repository.findBySku(product.getSku());
-        if(product != null){
-            switch(action) {
-                case Constants.CREATED_PRODUCT_HEADER:
-                    if(productToAction.isEmpty()){
-                        repository.save(product);
-                        System.out.println("Product Added " + product);
-                    }
-                    break;
-                case Constants.UPDATED_PRODUCT_HEADER:
-                    if(!productToAction.isEmpty()){
-                        productToAction.get().updateProduct(product);
-                        repository.save(productToAction.get());
-                        System.out.println("Product Updated " + productToAction.get());
-                    }
-                    break;
-                case Constants.DELETED_PRODUCT_HEADER:
-                    if(!productToAction.isEmpty()){
-                        repository.deleteBySku(product.getSku());
-                        System.out.println("Product Deleted " + productToAction.get());
-                    }
-                    break;
-                default:
-                    break;
-            }
+        if (action.equals(Constants.CREATED_PRODUCT_HEADER) || action.equals(Constants.UPDATED_PRODUCT_HEADER) || action.equals(Constants.DELETED_PRODUCT_HEADER)){
+            final Product product = (Product) messageConverter.fromMessage(message);
+            System.out.println("Received Product Message " + product);
+            final Optional<Product> productToAction = repository.findBySku(product.getSku());
+            if(product != null){
+                switch(action) {
+                    case Constants.CREATED_PRODUCT_HEADER:
+                        if(productToAction.isEmpty()){
+                            repository.save(product);
+                            System.out.println("Product Added " + product);
+                        }
+                        break;
+                    case Constants.UPDATED_PRODUCT_HEADER:
+                        if(!productToAction.isEmpty()){
+                            productToAction.get().updateProduct(product);
+                            repository.save(productToAction.get());
+                            System.out.println("Product Updated " + productToAction.get());
+                        }
+                        break;
+                    case Constants.DELETED_PRODUCT_HEADER:
+                        if(!productToAction.isEmpty()){
+                            repository.deleteBySku(product.getSku());
+                            System.out.println("Product Deleted " + productToAction.get());
+                        }
+                        break;
+                    default:
+                        break;
+                }
+        }
+
+
         }
     }
 }

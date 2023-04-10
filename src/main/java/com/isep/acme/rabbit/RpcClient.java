@@ -32,7 +32,7 @@ public class RpcClient {
         String correlationId = UUID.randomUUID().toString();
 
         MessageProperties props = new MessageProperties();
-        props.setReplyTo("rpc_callback_queue");
+        props.setReplyTo("#{queueRPC.name}");
         props.setCorrelationId(correlationId);
 
         String message = "get_products";

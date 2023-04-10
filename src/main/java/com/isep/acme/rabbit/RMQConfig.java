@@ -13,11 +13,11 @@ public class RMQConfig {
 
 	@Bean
 	public Queue queue() {
-		return new Queue(Constants.PCQUEUE);
+		return new AnonymousQueue();
 	}
 	@Bean
 	public Queue queueRPC() {
-		return new Queue(Constants.RPCQUEUE);
+		return new AnonymousQueue();
 	}
 
 	@Bean
