@@ -27,7 +27,6 @@ public class ACMEApplication {
 
 	@EventListener(ApplicationReadyEvent.class)
 	public void onApplicationReady(ApplicationReadyEvent event) throws Exception {
-		System.out.println("Spring Boot application has started. Running custom logic...");
 		rpcClient.getProducts();
 	}
 
